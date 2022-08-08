@@ -41,7 +41,7 @@ class Cupcake(db.Model):
 
     image = db.Column(
         db.Text,
-        default="https://tinyurl.com/demo-cupcake"
+        default="https://tinyurl.com/demo-cupcake" #make url global constant
     )
 
     def serialize(self):

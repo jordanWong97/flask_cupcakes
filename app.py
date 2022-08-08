@@ -10,13 +10,12 @@ connect_db(app)
 
 db.create_all()
 """Flask app for Cupcakes
-
-GET /api/cupcakes: info about all cupcakes
 """
 
 @app.get("/api/cupcakes")
 def list_all_cupcakes():
-    """ Respond with JSON like: {cupcakes: [{id, flavor, size, rating, image}, ...]}."""
+    """ Show info about all cupcakes.
+    Respond with JSON like: {cupcakes: [{id, flavor, size, rating, image}, ...]}."""
 
     cupcakes = Cupcake.query.all()
     serialized = [c.serialize() for c in cupcakes]
@@ -39,14 +38,15 @@ def list_single_cupcake(cupcake_id):
 def create_cupcake():
     """Create cupcake from form data & return it.
 
-    Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
+        Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
     """
+
     #plucks out data from json that was sent by the client
     flavor = request.json["flavor"]
     size = request.json["size"]
     rating = request.json["rating"]
     #needs to do get or None for optional image here since we haven't reached the database yet
-    image = request.json.get("image", None)
+    image = request.json.get("image") or None #edge case in test
 
 
     #then we access the database below
@@ -66,10 +66,10 @@ def create_cupcake():
 def update_cupcake(cupcake_id):
     """Update cupcake from with data from form & return it.
 
-    Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
+        Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
     """
 
-    cupcake = Cupcake.query.get(cupcake_id)
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
 
     cupcake.flavor = request.json.get("flavor", cupcake.flavor)
     cupcake.size = request.json.get("size",cupcake.size)
@@ -88,11 +88,11 @@ def update_cupcake(cupcake_id):
 @app.delete("/api/cupcakes/<int:cupcake_id>")
 def delete_cupcake(cupcake_id):
     """Delete cupcake from form data & check status code.
-
-    Respond with JSON like {"deleted":{cupcake_id}}
+        Raise a 404 if the cupcake cannot be found
+        Respond with JSON like {"delete":{cupcake_id}}
     """
-
-    Cupcake.query.filter_by(id = cupcake_id).delete()
+    Cupcake.get_or_404(cupcake_id)
+    Cupcake.query.filter_by(id=cupcake_id).delete()
 
     db.session.commit()
 
