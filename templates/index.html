@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUPCAKE</title>
+</head>
+<body>
+  <ul>
+      {%for cupcake in cupcakes%}
+        <li>{{cupcake}}</li>
+        {%endfor%}
+  </ul>
+
+
+  <form action="/api/cupcakes" method = "POST" >
+      <label for="flavor">Flavor</label>
+        <input type="text" name="flavor">
+
+      <label for="size">Flavor</label>
+        <input type="text" name="size">
+
+      <label for="rating">Flavor</label>
+        <input type="number" name="rating">
+
+      <label for="image">Flavor</label>
+        <input type="text" name="image">
+
+  </form>
+</body>
+</html>

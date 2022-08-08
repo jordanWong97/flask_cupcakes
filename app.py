@@ -98,3 +98,10 @@ def delete_cupcake(cupcake_id):
 
     # Return w/status code 200 --- return tuple (json, status)
     return (jsonify(delete = cupcake_id), 200)
+
+
+
+
+@app.get("/")
+def show_homepage():
+    """Show an empty list of cupcakes and a form where new cupcakes can be founded"""
