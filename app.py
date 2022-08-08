@@ -15,7 +15,7 @@ GET /api/cupcakes: info about all cupcakes
 """
 
 @app.get("/api/cupcakes")
-def list_all_desserts():
+def list_all_cupcakes():
     """ Respond with JSON like: {cupcakes: [{id, flavor, size, rating, image}, ...]}."""
 
     cupcakes = Cupcake.query.all()
@@ -25,7 +25,7 @@ def list_all_desserts():
 
 
 @app.get("/api/cupcakes/<int:cupcake_id>")
-def list_single_dessert(cupcake_id):
+def list_single_cupcake(cupcake_id):
     """Respond with JSON like: {cupcake: {id, flavor, size, rating, image}}
      RETURN 404 if cannot found"""
 
@@ -34,8 +34,9 @@ def list_single_dessert(cupcake_id):
 
     return jsonify(cupcake=serialized)
 
+
 @app.post("/api/cupcakes")
-def create_dessert():
+def create_cupcake():
     """Create cupcake from form data & return it.
 
     Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
@@ -61,15 +62,39 @@ def create_dessert():
 
 
 
-"""
-PATCH /api/cupcakes/[cupcake-id]: update one cupcake using its id(passed in URL)
-                Request body mau include flavor, size, rating and image but not all
+@app.patch("/api/cupcakes/<int:cupcake_id>")
+def update_cupcake(cupcake_id):
+    """Update cupcake from with data from form & return it.
 
-                RETURN 404 if cannot found
-Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
+    Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
+    """
 
-DELETE /api/cupcakes/[cupcake-id]: delete cupcake given its id (passed in URL)
-    Respond with JSON like {deleted: [cupcake-id]}
+    cupcake = Cupcake.query.get(cupcake_id)
+
+    cupcake.flavor = request.json.get("flavor", cupcake.flavor)
+    cupcake.size = request.json.get("size",cupcake.size)
+    cupcake.rating = request.json.get("rating",cupcake.rating)
+    cupcake.image = request.json.get("image", cupcake.image)
+
+    db.session.commit()
+
+    serialized = cupcake.serialize()
+
+    # Return w/status code 200 --- return tuple (json, status)
+    return (jsonify(cupcake=serialized), 200)
 
 
-"""
+
+@app.delete("/api/cupcakes/<int:cupcake_id>")
+def delete_cupcake(cupcake_id):
+    """Delete cupcake from form data & check status code.
+
+    Respond with JSON like {"deleted":{cupcake_id}}
+    """
+
+    Cupcake.query.filter_by(id = cupcake_id).delete()
+
+    db.session.commit()
+
+    # Return w/status code 200 --- return tuple (json, status)
+    return (jsonify(delete = cupcake_id), 200)
