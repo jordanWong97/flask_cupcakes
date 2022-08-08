@@ -40,14 +40,15 @@ def create_dessert():
 
     Respond with JSON like {cupcake: {id, flavor, size, rating, image}}
     """
-
+    #plucks out data from json that was sent by the client
     flavor = request.json["flavor"]
     size = request.json["size"]
     rating = request.json["rating"]
-    image = request.json["image"]
+    #needs to do get or None for optional image here since we haven't reached the database yet
+    image = request.json.get("image", None)
 
 
-
+    #then we access the database below
     new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image = image)
 
     db.session.add(new_cupcake)
@@ -60,35 +61,7 @@ def create_dessert():
 
 
 
-
-
-
-
-
-
-
-
 """
-GET /api/cupcakes/[cupcake-id]: info about one cupcake
-            SHOULD RAISE 404 if not found (use get_or_404 here???)
-
-
-
-
-
-
-
-
-
-POST/api/cupcakes: create cupcake with FLAVOR, SIZE, RATING and IMAGE
-    (TRY IT OUT IN INSOMNIA, SET IT TO JSON FOR BODY TEXT)
-Respond with JSON like: {cupcake: {id, flavor, size, rating, image}}
-
-
-
-
-
-
 PATCH /api/cupcakes/[cupcake-id]: update one cupcake using its id(passed in URL)
                 Request body mau include flavor, size, rating and image but not all
 

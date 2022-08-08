@@ -41,7 +41,6 @@ class Cupcake(db.Model):
 
     image = db.Column(
         db.Text,
-        nullable=False,
         default="https://tinyurl.com/demo-cupcake"
     )
 
