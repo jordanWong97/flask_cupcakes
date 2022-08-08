@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from models import db, connect_db, Cupcake
 
 app = Flask(__name__)
@@ -11,6 +11,12 @@ connect_db(app)
 db.create_all()
 """Flask app for Cupcakes
 """
+
+@app.get("/")
+def show_homepage():
+    """Show an empty list of cupcakes and a form where new cupcakes can be founded"""
+
+    return render_template('index.html')
 
 @app.get("/api/cupcakes")
 def list_all_cupcakes():
@@ -102,6 +108,3 @@ def delete_cupcake(cupcake_id):
 
 
 
-@app.get("/")
-def show_homepage():
-    """Show an empty list of cupcakes and a form where new cupcakes can be founded"""

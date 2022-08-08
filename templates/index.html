@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="https://www.unpkg.com/bootstrap-icons/font/bootstrap-icons.css">
   <title>CUPCAKE</title>
 </head>
+
 <body>
-  <ul>
-      {%for cupcake in cupcakes%}
-        <li>{{cupcake}}</li>
-        {%endfor%}
-  </ul>
 
+  <form action="/api/cupcakes" method="POST">
+    <label for="flavor">Flavor</label>
+    <input type="text" name="flavor">
 
-  <form action="/api/cupcakes" method = "POST" >
-      <label for="flavor">Flavor</label>
-        <input type="text" name="flavor">
+    <label for="size">Size</label>
+    <input type="text" name="size">
 
-      <label for="size">Flavor</label>
-        <input type="text" name="size">
+    <label for="rating">Rating</label>
+    <input type="number" name="rating">
 
-      <label for="rating">Flavor</label>
-        <input type="number" name="rating">
-
-      <label for="image">Flavor</label>
-        <input type="text" name="image">
+    <label for="image">Image</label>
+    <input type="text" name="image">
 
   </form>
+
+  <ul id="cupcakes">
+    <!-- {%for cupcake in cupcakes%}
+        <li>{{cupcake}}</li>
+        {%endfor%} -->
+  </ul>
+
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="static/script.js"></script>
 </body>
+
 </html>
