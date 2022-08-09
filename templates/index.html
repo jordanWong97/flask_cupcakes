@@ -12,25 +12,26 @@
 
 <body>
 
-  <form action="/api/cupcakes" method="POST">
+  <form id="add-form" action="/api/cupcakes" method="POST">
     <label for="flavor">Flavor</label>
-    <input type="text" name="flavor">
+    <input type="text" name="flavor" id="flavor">
+     <!-- change id to be more specific -->
 
     <label for="size">Size</label>
-    <input type="text" name="size">
+    <input type="text" name="size" id="size">
 
     <label for="rating">Rating</label>
-    <input type="number" name="rating">
+    <input type="number" name="rating" id="rating">
 
     <label for="image">Image</label>
-    <input type="text" name="image">
+    <input type="text" name="image" id="image">
+
+    <button type="Submit">Add your cupcake</button>
 
   </form>
 
   <ul id="cupcakes">
-    <!-- {%for cupcake in cupcakes%}
-        <li>{{cupcake}}</li>
-        {%endfor%} -->
+
   </ul>
 
   <script src="https://unpkg.com/jquery"></script>
